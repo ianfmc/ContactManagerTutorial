@@ -91,9 +91,8 @@ var DirectoryView = Backbone.View.extend({
     filterByType: function () {
         if (this.filterType === "all") {
             this.collection.reset(contacts);
-            // contactsRouter.navigate("filter/all");
+            contactsRouter.navigate("filter=all");
         } else {
-	        console.log("Filtering");
             this.collection.reset(contacts, { silent: true });
 
             var filterType = this.filterType,
@@ -102,12 +101,26 @@ var DirectoryView = Backbone.View.extend({
                 });
 
             this.collection.reset(filtered);
-
-            // contactsRouter.navigate("filter/" + filterType);
+            contactsRouter.navigate("filter=" + filterType);
         }
     }
 });
 
-var directory = new DirectoryView()
+var ContactsRouter = Backbone.Router.extend({
+    routes: {
+        "filter/:type": "urlFilter"
+    },
+ 
+    urlFilter: function (type) {
+	    console.log("navigating");
+        directory.filterType = type;
+        directory.trigger("change:filterType");
+    }
+});
+
+var directory = new DirectoryView();
+var contactsRouter = new ContactsRouter();
+
+Backbone.history.start();
 
 } (jQuery));

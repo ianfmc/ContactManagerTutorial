@@ -1,10 +1,10 @@
 (function ($) {
  
     var contacts = [
-        { name: "Portia Zhu", address: "Town, City Zip", tel: "XXX XXX XXXX", email: "anemail@me.com", position: "Goalkeeper" },
-        { name: "Leslie Strong", address: "Town, City Zip", tel: "XXX XXX XXXX", email: "anemail@me.com", position: "Driver" },
-        { name: "Amy Patrick", address: "Town, City Zip", tel: "XXX XXX XXXX", email: "anemail@me.com", position: "Goalkeeper" },
-        { name: "Amelia Starr", address: "Town, City Zip", tel: "XXX XXX XXXX", email: "anemail@me.com", position: "Driver" },
+        { name: "Portia Zhu", address: "Town, City Zip", tel: "XXX XXX XXXX", email: "anemail@me.com", position: "goalkeeper" },
+        { name: "Leslie Strong", address: "Town, City Zip", tel: "XXX XXX XXXX", email: "anemail@me.com", position: "driver" },
+        { name: "Amy Patrick", address: "Town, City Zip", tel: "XXX XXX XXXX", email: "anemail@me.com", position: "goalkeeper" },
+        { name: "Amelia Starr", address: "Town, City Zip", tel: "XXX XXX XXXX", email: "anemail@me.com", position: "driver" },
     ];
  
 var Contact = Backbone.Model.extend({
@@ -38,6 +38,9 @@ var DirectoryView = Backbone.View.extend({
         
         this.render();
         this.$el.find("#filter").append(this.createSelect()); 
+        
+        this.on("change:filterType", this.filterByType, this);
+        this.collection.on("reset", this.render, this);
     },
  
     render: function () {
@@ -74,7 +77,35 @@ var DirectoryView = Backbone.View.extend({
 	        }).appendTo(select);
 	    });
 	    return select;
-	}
+	},
+	
+	events: {
+		"change #filter select": "setFilter"
+	},
+	
+	setFilter: function (e) {
+	    this.filterType = e.currentTarget.value;
+	    this.trigger("change:filterType");
+	},
+	
+    filterByType: function () {
+        if (this.filterType === "all") {
+            this.collection.reset(contacts);
+            // contactsRouter.navigate("filter/all");
+        } else {
+	        console.log("Filtering");
+            this.collection.reset(contacts, { silent: true });
+
+            var filterType = this.filterType,
+                filtered = _.filter(this.collection.models, function (item) {
+                    return item.get("position") === filterType;
+                });
+
+            this.collection.reset(filtered);
+
+            // contactsRouter.navigate("filter/" + filterType);
+        }
+    }
 });
 
 var directory = new DirectoryView()

@@ -1,10 +1,10 @@
 (function ($) {
  
     var contacts = [
-        { name: "Portia Zhu", address: "Town, City Zip", tel: "XXX XXX XXXX", email: "anemail@me.com", position: "goalkeeper" },
-        { name: "Leslie Strong", address: "Town, City Zip", tel: "XXX XXX XXXX", email: "anemail@me.com", position: "driver" },
-        { name: "Amy Patrick", address: "Town, City Zip", tel: "XXX XXX XXXX", email: "anemail@me.com", position: "goalkeeper" },
-        { name: "Amelia Starr", address: "Town, City Zip", tel: "XXX XXX XXXX", email: "anemail@me.com", position: "driver" },
+        { name: "Portia Zhu", position: "goalkeeper" },
+        { name: "Leslie Strong", position: "driver" },
+        { name: "Amy Patrick", position: "goalkeeper" },
+        { name: "Amelia Starr", position: "driver" },
     ];
  
 var Contact = Backbone.Model.extend({
@@ -27,11 +27,31 @@ var ContactView = Backbone.View.extend({
  
         this.$el.html(tmpl(this.model.toJSON()));
         return this;
-    }
+    },
+    
+    events : {
+        "click button.delete": "deleteContact"
+    },
+    
+    deleteContact: function () {
+	    var removedType = this.model.get("position").toLowerCase();
+	    this.model.destroy();
+	 
+	    this.remove();
+	 
+	    if (_.indexOf(directory.getTypes(), removedType) === -1) {
+	        directory.$el.find("#filter select").children("[value='" + removedType + "']").remove();
+	    }
+	}
 });
 
 var DirectoryView = Backbone.View.extend({
     el: $("#contacts"),
+    
+    defaults: {
+	    name: "New Player",
+	    position: "Position"
+    },
  
     initialize: function () {
         this.collection = new Directory(contacts);
@@ -41,6 +61,8 @@ var DirectoryView = Backbone.View.extend({
         
         this.on("change:filterType", this.filterByType, this);
         this.collection.on("reset", this.render, this);
+        
+        this.collection.on("add", this.renderContact, this);
     },
  
     render: function () {
@@ -80,7 +102,9 @@ var DirectoryView = Backbone.View.extend({
 	},
 	
 	events: {
-		"change #filter select": "setFilter"
+		"change #filter select": "setFilter",
+		"click #add": "addContact",
+		"click #showFormButton": "showForm"
 	},
 	
 	setFilter: function (e) {
@@ -103,7 +127,32 @@ var DirectoryView = Backbone.View.extend({
             this.collection.reset(filtered);
             contactsRouter.navigate("filter=" + filterType);
         }
-    }
+    },
+    
+    addContact: function (e) {
+	    e.preventDefault();
+	 
+	    var newModel = {};
+	    
+	    $("#addContacts").children("input").each(function (i, el) {
+	        if ($(el).val() !== "") {
+	            newModel[el.id] = $(el).val();
+	        }
+	    });
+	 
+	    contacts.push(newModel);
+	 
+	    if (_.indexOf(this.getTypes(), newModel.type) === -1) {
+	        this.collection.add(new Contact(newModel));
+	        this.$el.find("#filter").find("select").remove().end().append(this.createSelect()); 
+	    } else {
+	        this.collection.add(new Contact(newModel));
+	    }
+	},
+	    
+    showForm: function () {
+	    this.$el.find("#addContacts").slideToggle();
+	}
 });
 
 var ContactsRouter = Backbone.Router.extend({

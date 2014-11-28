@@ -1,9 +1,136 @@
-﻿.contact-container { width:400px; padding:10px; border:1px solid #aaa; margin:0 10px 10px 0; float:left; font-family:sans-serif; color:#333; background-color:#eee; }
-.contact-container h1 { margin:0; font-weight:normal; }
-.contact-container h1 span { float:right; font-size:14px; line-height:24px; font-weight:normal; }
-.contact-container img { border-width:1px; border-style:solid; border-color:#fff; border-right-color:#aaa; border-bottom-color:#aaa; margin-right:10px; float:left; }
-.contact-container div { margin-bottom:24px; font-size:14px; }
-.contact-container a { color:#333;}
-.contact-container dl { margin:0; float:left; font-size:14px; }
-.contact-container dt, .contact-container dd { margin:0; float:left; }
-.contact-container dt { width:50px; clear:left; }
+﻿#contacts { 
+	width:824px; margin:auto; 
+}
+	
+.contact-container { 
+	width:400px; 
+	border:1px solid #aaa; 
+	margin:0 10px 10px 0; 
+	position:relative; 
+	float:left; 
+	font-family:sans-serif; 
+	color:#333; 
+	background-color:#eee; 
+}
+
+.contact-container h1 { 
+	margin:0; 
+	font-weight:normal; 
+	font-size: 18px; 
+	background-color: aqua; 
+}
+
+.contact-container h1 span { 
+	float:right; 
+	font-size:14px; 
+	line-height:24px; 
+	font-weight:bold; 
+}
+
+.contact-container img { 
+	border-width:1px; 
+	border-style:solid; 
+	border-color:#fff; 
+	border-right-color:#aaa; 
+	border-bottom-color:#aaa; 
+	margin-right:10px; 
+	float:left; 
+}
+
+.contact-container div { 
+	margin-bottom:24px; 
+	font-size:12px; 
+	background-color: yellow
+}
+
+.contact-container button { 
+	margin-top:10px; 
+	float:right; 
+}
+
+header { 
+	margin-bottom: 10px; 
+	color: white;
+	background-color: green;
+}
+
+header:after { 
+	content: ""; 
+	display: block; 
+	height: 0; 
+	visibility: hidden; 
+	clear: both; 
+	font-size: 0; 
+	line-height: 0; 
+}
+
+header { 
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+header:after { 
+	content: ""; 
+	display: block; 
+	height: 0; 
+	visibility: hidden; 
+	clear: both; 
+	font-size: 0; 
+	line-height: 0; }
+
+#filter { 
+	float: left; 
+	margin-left: 10px; 
+	margin-bottom: 10px; 
+	margin-top: 3px; 
+	color: white; 
+	font-family: sans-serif; 
+	font-size: 12px;
+	
+	background-color: red; 
+}
+
+#showFormButton { 
+	float: right; 
+	margin-top: 3px; 
+	margin-right: 3px; 
+
+	background-color: pink;
+}
+
+#addContacts { 
+	display: none; 
+	width: 500px; 
+	float:left; 
+	clear: both; 
+	font-family:sans-serif; 
+	font-size: 14px; 
+	
+	background-color: fuchsia;
+}
+
+#addContacts label, #addContacts input{ 
+	display: block; 
+	float: left; 
+	margin-top: 3px;
+	margin-bottom: 10px; 
+}
+	
+#addContacts label { 
+	width: 60px;
+	margin-left: 10px; 
+	text-align: left; 
+	line-height: 25px; 
+	color: white; 
+}
+
+#addContacts label[for="name"], #addContacts label[for="position"] { 
+	clear: both; 
+}
+
+#add { 
+	float: left; 
+	display: block; 
+	margin-left: 10px; 
+	margin-bottom: 3px; 
+	clear: both;
+}

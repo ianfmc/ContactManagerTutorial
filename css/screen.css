@@ -5,7 +5,7 @@
 .contact-container { 
 	width: 400px; 
 	border: 1px solid #aaa; 
-	margin:0 10px 10px 0; 
+	margin:0 5px 5px 0; 
 	position: relative; 
 	float: left; 
 	font-family: sans-serif; 
@@ -34,7 +34,7 @@
 	border-color: #fff; 
 	border-right-color: #aaa; 
 	border-bottom-color: #aaa; 
-	margin-right: 10px; 
+	margin-right: 5px; 
 	float: left; 
 }
 
@@ -45,14 +45,14 @@
 }
 
 .contact-container button { 
-	margin-top:10px; 
+	margin-top:5px; 
 	float:right; 
 	
 	background-color: white;
 }
 
 header { 
-	margin-bottom: 10px; 
+	margin-bottom: 5px; 
 	color: white;
 
 	border: 1px solid black;
@@ -73,8 +73,8 @@ header:after {
 }
 
 header { 
-	margin-bottom: 10px;
-	margin-top: 10px;
+	margin-bottom: 5px;
+	margin-top: 5px;
 }
 
 header:after { 
@@ -88,7 +88,7 @@ header:after {
 
 #filter { 
 	float: left; 
-	margin-left: 10px; 
+	margin-left: 5px; 
 	margin-bottom: 5px; 
 	margin-top: 3px; 
 	color: white; 
@@ -102,7 +102,7 @@ header:after {
 	float: right; 
 	margin-top: 3px; 
 	margin-right: 3px;
-	margin-bottom: auto; 
+	margin-bottom: 5px; 
 	
 	background-color: white;
 }
@@ -123,7 +123,7 @@ header:after {
 	display: block; 
 	float: left; 
 	margin-top: 3px;
-	margin-bottom: 10px; 
+	margin-bottom: 5px; 
 }
 	
 #addContacts label { 
@@ -171,7 +171,7 @@ header:after {
 }
 
 .contact-container input { 
-	margin: 0px 10px 3px 0px; 
+	margin: 0px 5px 3px 0px; 
 }
 
 .contact-container form button { 

@@ -154,20 +154,20 @@ tagName: "article",
 	    
 		getTypes: function () {
 		    return _.uniq(this.collection.pluck("position"), false, function (type) {
-		        return type.toLowerCase();
+		        return type;
 		    });
 		},
 		 
 		createSelect: function () {
 		    var filter = this.$el.find("#filter"),
 		        select = $("<select/>", {
-		            html: "<option value='all'>all</option>"
+		            html: "<option value='all'>All</option>"
 		        });
 		 
 		    _.each(this.getTypes(), function (item) {
 		        var option = $("<option/>", {
-		            value: item.toLowerCase(),
-		            text: item.toLowerCase()
+		            value: item,
+		            text: item
 		        }).appendTo(select);
 		    });
 		    return select;

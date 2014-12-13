@@ -8,20 +8,25 @@
         { name: "Kathy Duffy", position: "Set" },
     ];
  
-	var Contact = Backbone.Model.extend({
+	var Contact = Parse.Object.extend( "Player", {
 	    defaults: {
-	        photo: "img/placeholder.png"
-	    }
+	        PlayerName: "New Player", 
+	        Position: "Position", 
+	        Number: "#"
+	    },
+	    
+	    className: "Contact",
 	});
 	
-	var Directory = Backbone.Collection.extend({
+	var Directory = Parse.Collection.extend({
 	    model: Contact
 	});
 	
-	var ContactView = Backbone.View.extend({
+	var ContactView = Parse.View.extend({
 	    
-tagName: "article",
+		tagName: "article",
         className: "contact-container",
+        
         template: _.template($("#contactTemplate").html()),
         editTemplate: _.template($("#contactEditTemplate").html()),	
          
@@ -52,8 +57,10 @@ tagName: "article",
 		editContact: function () {
 			console.log("Editing Contact");
 			this.$el.html(this.editTemplate(this.model.toJSON()));
-
-			/*
+			
+		    /* Need to repair the commented code here
+			   Does not compile
+			   
 		    var newOpt = $("<option/>", {
 		        html: "<em>Add new...</em>",
 		        value: "addType"   
@@ -64,6 +71,7 @@ tagName: "article",
 		        .insertAfter(this.$el.find(".name"));
 		 
 		    this.$el.find("input[type='hidden']").remove();
+		    
 		    */
 		},
 		
@@ -117,23 +125,28 @@ tagName: "article",
 		}
 	});
 	
-	var DirectoryView = Backbone.View.extend({
+	var DirectoryView = Parse.View.extend({
 	    el: $("#contacts"),
 	    
-	    defaults: {
-		    name: "New Player",
-		    position: "Position"
-	    },
-	 
 	    initialize: function () {
-	        this.collection = new Directory(contacts);
+		    
+		    Parse.$ = jQuery;
+		    
+		    Parse.initialize("7PKnbx3M6cFUl7qcKj6fVbEga5gBkF5l4lSdbxIm", 
+						     "FuDspLU513MZuagHRssvnLZnSGe9HVpvwtHlT8G2"); 
+		    
+	        var Player = Parse.Object.extend("Player");
+	        var q = new Parse.Query(Player);
+	        q.find();
+	        
+	        this.collection = q.collection();
+	        this.collection.fetch();
 	        
 	        this.render();
 	        this.$el.find("#filter").append(this.createSelect()); 
 	        
 	        this.on("change:filterType", this.filterByType, this);
-	        this.collection.on("reset", this.render, this);
-	        
+	        this.collection.on("reset", this.render, this);	        
 	        this.collection.on("add", this.renderContact, this);
 	    },
 	 
@@ -141,6 +154,7 @@ tagName: "article",
 	        this.$el.find("article").remove();
 	
 	        _.each(this.collection.models, function (item) {
+		        console.log(item);
 	            this.renderContact(item);
 	        }, this);
 	    },
@@ -204,8 +218,8 @@ tagName: "article",
 	    addContact: function (e) {
 		    e.preventDefault();
 		 
-		    var newModel = {};
-		    
+		    var newModel = {}; /* is this of type Player? */
+		    		    
 		    $("#addContacts").children("input").each(function (i, el) {
 		        if ($(el).val() !== "") {
 		            newModel[el.id] = $(el).val();
@@ -214,12 +228,14 @@ tagName: "article",
 		 
 		    contacts.push(newModel);
 		 
-		    if (_.indexOf(this.getTypes(), newModel.type) === -1) {
+		    if (_.indexOf(this.getTypes(), newModel.position) === -1) {
 		        this.collection.add(new Contact(newModel));
 		        this.$el.find("#filter").find("select").remove().end().append(this.createSelect()); 
 		    } else {
 		        this.collection.add(new Contact(newModel));
 		    }
+		    
+			console.log(newModel);
 		},
 		    
 	    showForm: function () {
